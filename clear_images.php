@@ -1,0 +1,11 @@
+<?php
+require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/src/Database.php';
+
+$db = Database::getInstance();
+
+// Delete all images
+$db->query("DELETE FROM images");
+$db->query("DELETE FROM likes");
+
+echo "All images and likes deleted from database.\n";
