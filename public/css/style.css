@@ -388,18 +388,20 @@ main {
 /* Image Card */
 .image-card {
     background-color: var(--surface);
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
     box-shadow: var(--shadow);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
     cursor: pointer;
-    animation: cardFadeIn 0.5s ease;
+    border: 2px solid transparent;
+    animation: cardSlideUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .image-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-12px) rotateX(5deg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(34, 197, 94, 0.2);
+    border-color: var(--primary-color);
 }
 
 .image-card img {
@@ -407,11 +409,12 @@ main {
     height: 250px;
     object-fit: cover;
     display: block;
-    transition: transform 0.4s ease;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .image-card:hover img {
-    transform: scale(1.05);
+    transform: scale(1.1) translateY(-5px);
+    filter: brightness(1.1) contrast(1.05);
 }
 
 .image-overlay {
@@ -419,11 +422,12 @@ main {
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
-    padding: 1rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.95), transparent);
+    padding: 1.2rem;
     opacity: 0;
-    transition: all 0.3s ease;
-    transform: translateY(10px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: translateY(20px);
+    backdrop-filter: blur(5px);
 }
 
 .image-card:hover .image-overlay {
@@ -692,9 +696,9 @@ main {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(4px);
-    animation: fadeIn 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    animation: modalFadeIn 0.4s ease;
 }
 
 .modal.show {
@@ -704,14 +708,15 @@ main {
 }
 
 .modal-content {
-    background-color: var(--surface);
-    padding: 2rem;
-    border-radius: 12px;
+    background: linear-gradient(145deg, var(--surface), var(--surface-hover));
+    padding: 2.5rem;
+    border-radius: 20px;
     position: relative;
     max-width: 500px;
     width: 90%;
-    animation: modalPop 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    animation: modalZoomBounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(34, 197, 94, 0.1);
+    border: 1px solid var(--border);
 }
 
 .modal-large {
@@ -720,6 +725,10 @@ main {
 
 .modal-content h2 {
     margin-bottom: 1.5rem;
+    background: var(--gradient-hero);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .close {
@@ -729,20 +738,22 @@ main {
     font-size: 1.5rem;
     color: var(--text-secondary);
     cursor: pointer;
-    transition: all 0.3s ease;
-    width: 40px;
-    height: 40px;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid transparent;
 }
 
 .close:hover {
-    color: var(--text-primary);
-    background: rgba(255, 255, 255, 0.2);
-    transform: rotate(90deg);
+    color: var(--error);
+    background: rgba(239, 68, 68, 0.1);
+    border-color: var(--error);
+    transform: rotate(180deg) scale(1.1);
 }
 
 /* Error Messages */
@@ -778,85 +789,47 @@ main {
     }
 }
 
-@keyframes likePulse {
-    0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
-    }
-    50% {
-        transform: scale(1.1);
-        box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
-    }
-    100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
-    }
-}
-
-@keyframes dislikePulse {
-    0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
-    }
-    50% {
-        transform: scale(1.1);
-        box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
-    }
-    100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
-    }
-}
-
-@keyframes iconBounce {
+@keyframes neonPulse {
     0%, 100% {
-        transform: scale(1);
+        box-shadow: 0 0 30px rgba(255, 107, 107, 0.5), 0 0 60px rgba(255, 107, 107, 0.3);
     }
     50% {
-        transform: scale(1.3);
+        box-shadow: 0 0 50px rgba(255, 107, 107, 0.8), 0 0 100px rgba(255, 107, 107, 0.5);
     }
 }
 
-@keyframes iconShake {
-    0%, 100% {
-        transform: rotate(0deg);
-    }
-    25% {
-        transform: rotate(-15deg);
-    }
-    75% {
-        transform: rotate(15deg);
-    }
-}
-
-@keyframes cardFadeIn {
+@keyframes cardSlideUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(40px) scale(0.9);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
 }
 
-@keyframes countChange {
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+    }
+    to {
+        opacity: 1;
+        backdrop-filter: blur(8px);
+    }
+}
+
+@keyframes modalZoomBounce {
     0% {
-        transform: scale(1);
+        transform: scale(0.5) translateY(50px);
+        opacity: 0;
     }
     50% {
-        transform: scale(1.3);
-        color: var(--primary-color);
+        transform: scale(1.05) translateY(-10px);
     }
-    100% {
-        transform: scale(1);
-    }
-}
-
-@keyframes modalPop {
-    0% {
-        transform: scale(0.8) translateY(20px);
-        opacity: 0;
+    70% {
+        transform: scale(0.98) translateY(5px);
     }
     100% {
         transform: scale(1) translateY(0);
